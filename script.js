@@ -27,13 +27,14 @@ inquirer
         type: "list", 
         name: "likeToDo",
         message: "What would you like to do?",
-        choices: ["MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "None"],
+        choices: ["view all departments"," view all roles"," view all employees"," add a department"," add a role"," add an employee"," and update an employee role"]
     },
+]
+
     {
-        type: "list", 
+        type: "input", 
         name: "AddEmployees",
-        message: "?",
-        choices: ["MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "None"],
+        message: "What is the name of the employee you would want to add?",
     },
     {
         type: "list", 
@@ -53,12 +54,7 @@ inquirer
         message: "?",
         choices: ["MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "None"],
     },
-    {
-        type: "list", 
-        name: "AddDepartment",
-        message: "?",
-        choices: ["MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "None"],
-    },
 ]
 
-
+.then((answers) => { //cannot start function until all answers are in (async + await)
+    const markdown = generateMarkdown(answers);
