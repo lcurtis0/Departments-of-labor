@@ -1,13 +1,7 @@
 const inquirer = require('inquirer');
-const fs = require("fs/promises");
 
+const likeToDo = require('index.js');
 
-const db = mysql.SQLconnect({
-    host: 'localhost',
-    user: 'root',
-    password: '2Qu@5#3R$$',
-    database: 'buisness_db'
-});
 
 //Add Employees
 
@@ -26,21 +20,18 @@ const ToDo = [
         type: "list", 
         name: "likeToDo",
         message: "What would you like to do?",
-        choices: ["view all departments"," view all roles"," view all employees"," add a department"," add a role"," add an employee"," and update an employee role"]
+        choices: ["view all departments", "view all roles", " view all employees", " add a department", "add a role", "add an employee", " and update an employee role"]
     }
 ]
 
 inquirer.prompt(ToDo)
 
-.then((ToDo) => {
-    
+.then((answers) => {
+    console.log(`have selected ${answers.ToDo}`);
+    const edit = likeToDo(ToDo);
+    //writeToFile('README.md', edit);
 })
-
-    {
-        type: "input", 
-        name: "AddEmployees",
-        message: "What is the name of the employee you would want to add?",
-    },
+/*
     {
         type: "list", 
         name: "Viewallroles",
@@ -63,3 +54,4 @@ inquirer.prompt(ToDo)
 
 .then((answers) => { //cannot start function until all answers are in (async + await)
     const markdown = generateMarkdown(answers);
+*/
