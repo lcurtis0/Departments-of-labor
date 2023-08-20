@@ -5,16 +5,21 @@
 
 
 function likeToDo(answers.likeToDo){
+
+    
     if (answers.likeToDo === 'add a department'){
-        {
+        inquirer
+        .prompt =  {
             type: "input", 
             name: "AddDepartment",
             message: "what is the name of the new department?",
-        },
-        db.query(`INSERT INTO depertments(id, name) VALUES (${answers.}`, function (results) {
-    })
+        }
+        .then(
+        db.query(`INSERT INTO depertments(id, name) VALUES (${answers.AddDepartment})`),
+        console.log('Added ${answers.AddDepartment} to database'));
+    }
 }
-}
+
 
 function viewAllEployees(answers.viewAllEployees){
 
