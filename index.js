@@ -3,8 +3,6 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 
 
-
-
 // This area is for functions 
 
 const db = mysql.connection({

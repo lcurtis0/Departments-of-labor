@@ -1,6 +1,5 @@
 const inquirer = require('inquirer');
 
-const likeToDo = require('index.js');
 
 //const fs = require("fs/promises");
 
