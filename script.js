@@ -2,6 +2,8 @@ const inquirer = require('inquirer');
 
 const likeToDo = require('index.js');
 
+//const fs = require("fs/promises");
+
 
 //Add Employees
 
@@ -55,3 +57,6 @@ inquirer.prompt(ToDo)
 .then((answers) => { //cannot start function until all answers are in (async + await)
     const markdown = generateMarkdown(answers);
 */
+
+
+module.exports = ToDo;
