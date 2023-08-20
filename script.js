@@ -55,3 +55,6 @@ inquirer.prompt(ToDo)
 .then((answers) => { //cannot start function until all answers are in (async + await)
     const markdown = generateMarkdown(answers);
 */
+
+
+module.exports = ToDo;

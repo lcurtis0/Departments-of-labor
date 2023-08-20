@@ -1,6 +1,9 @@
 
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
+const { title } = require('process');
+
+
 
 // This area is for functions 
 
@@ -11,20 +14,46 @@ const db = mysql.SQLconnect({
     database: 'buisness_db'
 });
 
-renderLicenseBadge(answers.license)
 
-function likeToDo(answers.likeToDo) {
 
-    if (answers.likeToDo === 'add an employee') {
+Firstprompt(ToDo) {
+
+    if (ToDo === 'add an employee') {
         inquirer
-            .prompt = {
+            .prompt = [{
             type: "input",
-            name: "AddEmployees",
-            message: "What is the name of the employee you would want to add?"
-        }
+            name: "AddEmployees/firstname",
+            message: "What is the first name of the new employee?"
+        },
+        {
+            type: "input",
+            name: "AddEmployees/lastname",
+            message: "What is the last name of the new employee?"
+        },
+        {
+            type: "input",
+            name: "AddEmployees/salary",
+            message: "What is the salary of the new employee?"
+        },
+        {
+            type: "input",
+            name: "AddEmployees/title",
+            message: "What department role will they be working for?"
+        },
+    // name, salary, and department for the role and that role is added to the database
+    ]
         .then(
-            db.query(`INSERT INTO employees(id, first_name, last_name,role_id,manager_id) VALUES (${answers.AddEmployees})`),
-            console.log(`Added ${answers.AddEmployees} to database`));
+            
+            db.query(`INSERT INTO employee(first_name, last_name) VALUES (${answers.AddEmployees/firstname}, ${AddEmployees/lastname}, ${AddEmployees/salary}, ${AddEmployees/title})
+            INSERT INTO role(title, salary)`))
+
+            db.query(`SELECT employee.first_name, employee.last_name, role.salary, role.title 
+            FROM employee
+            JOIN role ON employee.role = role.id;`)
+            
+
+            console.log(`Added ${answers.AddEmployees/firstname} to database`);
+            console.log("")
     }
 
 
@@ -59,4 +88,3 @@ function likeToDo(answers.likeToDo) {
 //add department
 
 
-module.exports = likeToDo;
