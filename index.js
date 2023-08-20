@@ -1,13 +1,13 @@
 
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
-const { title } = require('process');
+
 
 
 
 // This area is for functions 
 
-const db = mysql.SQLconnect({
+const db = mysql.connection({
     host: 'localhost',
     user: 'root',
     password: '2Qu@5#3R$$',
