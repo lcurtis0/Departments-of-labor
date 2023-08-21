@@ -10,7 +10,8 @@ function Firstprompt(answers) {
 
     if (answers.likeToDo === 'add an employee') {
         inquirer
-            .prompt = [{
+            .prompt ( [
+            {
                 type: "input",
                 name: "firstname",
                 message: "What is the first name of the new employee?"
@@ -31,19 +32,16 @@ function Firstprompt(answers) {
                 message: "What role will they be working for?"
             }
                 // name, salary, and department for the role and that role is added to the database
-            ]
+            ])
 
-            .then((employeeInfo)=>{
-        db.query(`INSERT INTO role(title, salary) VALUES (${employeeInfo.title}, ${employeeInfo.salary}`)
+            .then((employeeAdd)=>{
+        db.query(`INSERT INTO role(title, salary, department_id) VALUES ('${employeeAdd.title}', ${employeeAdd.salary}, 6)`)
 
-        db.query(`INSERT INTO employee(first_name, last_name) VALUES (${employeeInfo.firstname}, ${employeeInfo.lastname}`)
+        db.query(`INSERT INTO employee(first_name, last_name, role_id) VALUES ('${employeeAdd.firstname}', '${employeeAdd.lastname}', 6)`)
 
-        const print = db.query(`SELECT employee.first_name, employee.last_name, role.salary, role.title 
-            FROM employee
-            JOIN role ON employee.role = role.id;`)
-    
-        console.log(`Added ${employeeInfo.firstname} to database`);
-        console.log(print);
+        console.log(`Added ${employeeAdd.firstname} to database`);
+
+        start(employeeAdd);
     
         })
 
@@ -51,13 +49,14 @@ function Firstprompt(answers) {
 
     if (answers.likeToDo === 'add a department') {
         inquirer
-            .prompt = [{
+            .prompt = ([{
                 type: "input",
-                name: "AddDepartment",
+                name: "name",
                 message: "what is the name of the new department?"
-            }]
-        db.query(connection.query(`INSERT INTO depertments(name) VALUES (${answers.AddDepartment})`),
-            console.log(`Added ${answers.AddDepartment} to database`));
+            }])
+            .then(departmentAdd)
+        db.query(`INSERT INTO depertments(name) VALUES (${departmentAdd.name})`),
+            console.log(`Added ${departmentAdd.name} to database`);
     }
 
     if (answers.likeToDo === 'update an employee role'){
@@ -99,4 +98,4 @@ function Firstprompt(answers) {
 //add department
 
 
-module.exports = connection;
+module.exports = {Firstprompt} 
