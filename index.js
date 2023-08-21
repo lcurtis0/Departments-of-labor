@@ -1,20 +1,22 @@
 
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
-
+const db = require("./db");
 
 // This area is for functions 
 
-const db = mysql.connection({
+const connection = mysql.createconnection({
     host: 'localhost',
     user: 'root',
     password: '2Qu@5#3R$$',
     database: 'buisness_db'
 });
 
+connection.connect(function (err) {
+    if (err) throw err;
+   });
 
-
-Firstprompt(ToDo) {
+function Firstprompt(ToDo) {
 
     if (ToDo === 'add an employee') {
         inquirer
@@ -40,10 +42,10 @@ Firstprompt(ToDo) {
         },
     // name, salary, and department for the role and that role is added to the database
     ]
-        .then(
             
-            db.query(`INSERT INTO employee(first_name, last_name) VALUES (${answers.AddEmployees/firstname}, ${AddEmployees/lastname}, ${AddEmployees/salary}, ${AddEmployees/title})
-            INSERT INTO role(title, salary)`))
+            db.query(`INSERT INTO role(title, salary) VALUES (, ${AddEmployees/title}, ${AddEmployees/salary}`)
+
+            db.query(`INSERT INTO employee(first_name, last_name) VALUES (${answers.AddEmployees/firstname}, ${AddEmployees/lastname}`)
 
             db.query(`SELECT employee.first_name, employee.last_name, role.salary, role.title 
             FROM employee
@@ -61,16 +63,30 @@ Firstprompt(ToDo) {
                 type: "input",
                 name: "AddDepartment",
                 message: "what is the name of the new department?",
+            },
+            {
+                type: "input",
+                name: "AddDepartment",
+                message: "what is the name of the new department?",
             }
-                .then(
-                    db.query(`INSERT INTO depertments(id, name) VALUES (${answers.AddDepartment})`),
+                
+            
+            
+            
+            
+            
+            
+            
+            
+            .then(
+                    connection.query(`INSERT INTO depertments(id, name) VALUES (${answers.AddDepartment})`),
                     console.log(`Added ${answers.AddDepartment} to database`));
     }
 
 }
 
 
-
+Firstprompt();
 //Add Employees
 
 
@@ -86,3 +102,4 @@ Firstprompt(ToDo) {
 //add department
 
 
+module.exports = connection;

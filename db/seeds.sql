@@ -1,23 +1,23 @@
-INSERT INTO department(id, name)
-VALUES (1, "accounting"),
-        (2, "register"),
-        (3, "cleaning"),
-        (4, "labor"),
-        (5, "services");
+INSERT INTO department(name)
+VALUES ("accounting"),
+        ("register"),
+        ("cleaning"),
+        ("labor"),
+        ("services");
 
-INSERT INTO role(id, title, salary, department)
-VALUES (1,"accountant", 80000, "accounting"),
-        (2,"cashier", 30000, "register"),
-        (3, "janitor", 50000, "cleaning"),
-        (4, "stocker", 25000, "labor"),
-        (5, "refund manager", 60000, "services");
+INSERT INTO role(title, salary, department)
+VALUES ("accountant", 80.000, "accounting"),
+        ("cashier", 30.000, "register"),
+        ("janitor", 50.000, "cleaning"),
+        ("stocker", 25.000, "labor"),
+        ("refund-manager", 60.000, "services");
 
-INSERT INTO employee(id, first_name, last_name,role_id,manager_id)
-VALUES (1, "john", "smith", 001, 101),
-    (2, "mike", "thopson", 002, 102),
-    (3, "bob", "jones", 003, 103),
-    (4, "jack", "pinkman", 004, 104),
-    (5, "tom", "thopson", 005, 105);
+INSERT INTO employee(first_name, last_name, role_id, manager_id)
+VALUES ( "john", "smith", 001, 101),
+        ("mike", "thopson", 002, 102),
+        ("bob", "jones", 003, 103),
+        ("jack", "pinkman", 004, 104),
+        ("tom", "thopson", 005, 105);
 
 /*
  GIVEN a command-line application that accepts user input
