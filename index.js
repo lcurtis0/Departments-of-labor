@@ -1,92 +1,89 @@
 
 const inquirer = require('inquirer');
-const mysql = require('mysql2');
-const db = require("./db");
+const db = require("./db/connection.js");
+
 
 // This area is for functions 
 
-const connection = mysql.createconnection({
-    host: 'localhost',
-    user: 'root',
-    password: '2Qu@5#3R$$',
-    database: 'buisness_db'
-});
 
-connection.connect(function (err) {
-    if (err) throw err;
-   });
+function Firstprompt(answers) {
 
-function Firstprompt(ToDo) {
-
-    if (ToDo === 'add an employee') {
+    if (answers.likeToDo === 'add an employee') {
         inquirer
             .prompt = [{
-            type: "input",
-            name: "AddEmployees/firstname",
-            message: "What is the first name of the new employee?"
-        },
-        {
-            type: "input",
-            name: "AddEmployees/lastname",
-            message: "What is the last name of the new employee?"
-        },
-        {
-            type: "input",
-            name: "AddEmployees/salary",
-            message: "What is the salary of the new employee?"
-        },
-        {
-            type: "input",
-            name: "AddEmployees/title",
-            message: "What department role will they be working for?"
-        },
-    // name, salary, and department for the role and that role is added to the database
-    ]
-            
-            db.query(`INSERT INTO role(title, salary) VALUES (, ${AddEmployees/title}, ${AddEmployees/salary}`)
-
-            db.query(`INSERT INTO employee(first_name, last_name) VALUES (${answers.AddEmployees/firstname}, ${AddEmployees/lastname}`)
-
-            db.query(`SELECT employee.first_name, employee.last_name, role.salary, role.title 
-            FROM employee
-            JOIN role ON employee.role = role.id;`)
-            
-
-            console.log(`Added ${answers.AddEmployees/firstname} to database`);
-            console.log("")
-    }
-
-
-    if (answers.likeToDo === 'add a department') {
-        inquirer
-            .prompt = {
                 type: "input",
-                name: "AddDepartment",
-                message: "what is the name of the new department?",
+                name: "firstname",
+                message: "What is the first name of the new employee?"
             },
             {
                 type: "input",
-                name: "AddDepartment",
-                message: "what is the name of the new department?",
+                name: "lastname",
+                message: "What is the last name of the new employee?"
+            },
+            {
+                type: "input",
+                name: "salary",
+                message: "What is the salary of the new employee?"
+            },
+            {
+                type: "input",
+                name: "title",
+                message: "What role will they be working for?"
             }
-                
-            
-            
-            
-            
-            
-            
-            
-            
-            .then(
-                    connection.query(`INSERT INTO depertments(id, name) VALUES (${answers.AddDepartment})`),
-                    console.log(`Added ${answers.AddDepartment} to database`));
+                // name, salary, and department for the role and that role is added to the database
+            ]
+
+            .then((employeeInfo)=>{
+        db.query(`INSERT INTO role(title, salary) VALUES (${employeeInfo.title}, ${employeeInfo.salary}`)
+
+        db.query(`INSERT INTO employee(first_name, last_name) VALUES (${employeeInfo.firstname}, ${employeeInfo.lastname}`)
+
+        const print = db.query(`SELECT employee.first_name, employee.last_name, role.salary, role.title 
+            FROM employee
+            JOIN role ON employee.role = role.id;`)
+    
+        console.log(`Added ${employeeInfo.firstname} to database`);
+        console.log(print);
+    
+        })
+
     }
 
-}
+    if (answers.likeToDo === 'add a department') {
+        inquirer
+            .prompt = [{
+                type: "input",
+                name: "AddDepartment",
+                message: "what is the name of the new department?"
+            }]
+        db.query(connection.query(`INSERT INTO depertments(name) VALUES (${answers.AddDepartment})`),
+            console.log(`Added ${answers.AddDepartment} to database`));
+    }
+
+    if (answers.likeToDo === 'update an employee role'){
+        inquirer //select an employee to update and their new role
+        .prompt = [{
+            type: "input",
+            name: "UpdateRole/name",
+            message: "Input a new employee name?"
+        },
+        {
+            type: "input",
+            name: "UpdateRole/title",
+            message: "Input a role to new employee?"
+        }]
+
+        db.query(`DELETE FROM role WHERE id = ? ${answers.UpdateRole/name}`);
+        db.query(`DELETE FROM employee WHERE id = ? ${answers.UpdateRole/name}`);
+            
+        db.query(`SELECT role.
+         VALUES (${AddEmployees / title}, ${AddEmployees / salary}`);
+    }
+
+};
 
 
-Firstprompt();
+
 //Add Employees
 
 
