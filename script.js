@@ -76,7 +76,9 @@ function start() {
                             db.query('SELECT * FROM department', function (err, results) {
                                 db.query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`),
                                     console.log(`Added ${departmentAdd.name} to database`);
-                                console.log(results);
+
+                                    let newResults = new results;
+                                console.log(newresults);
                                 
                             });
                         });
