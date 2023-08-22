@@ -65,7 +65,8 @@ function start() {
 
                 if (answers.likeToDo === 'add a department') {
                 inquirer
-                    .prompt = ([{
+                    .prompt([
+                        {
                         type: "input",
                         name: "name",
                         message: "what is the name of the new department?"
@@ -73,7 +74,7 @@ function start() {
                         .then((departmentAdd) => {
 
                             db.query('SELECT * FROM department', function (err, results) {
-                                db.query(`INSERT INTO depertment(name) VALUES ('${departmentAdd.name}')`),
+                                db.query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`),
                                     console.log(`Added ${departmentAdd.name} to database`);
                                 console.log(results);
                                 
@@ -81,9 +82,11 @@ function start() {
                         });
                 }
 
+                // Missing add a role
+
                 if (answers.likeToDo === 'update an employee role') {
                     inquirer //select an employee to update and their new role
-                        .prompt = [{
+                        .prompt ([{
                             type: "input",
                             name: "name",
                             message: "Input a new employee name?"
@@ -92,7 +95,7 @@ function start() {
                             type: "input",
                             name: "title",
                             message: "Input a role to new employee?"
-                        }]
+                        }])
                             .then((UpdateRole) => {
 
                                 db.query('SELECT * FROM department', function (err, results) {
