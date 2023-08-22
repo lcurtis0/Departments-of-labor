@@ -63,9 +63,7 @@ function start() {
                         })
                 }
 
-            
-
-            if (answers.likeToDo === 'add a department') {
+                if (answers.likeToDo === 'add a department') {
                 inquirer
                     .prompt = ([{
                         type: "input",
@@ -75,12 +73,13 @@ function start() {
                         .then((departmentAdd) => {
 
                             db.query('SELECT * FROM department', function (err, results) {
-                                db.query(`INSERT INTO depertment(name) VALUES (${departmentAdd.name})`),
+                                db.query(`INSERT INTO depertment(name) VALUES ('${departmentAdd.name}')`),
                                     console.log(`Added ${departmentAdd.name} to database`);
                                 console.log(results);
                                 
                             });
                         });
+                }
 
                 if (answers.likeToDo === 'update an employee role') {
                     inquirer //select an employee to update and their new role
@@ -98,8 +97,8 @@ function start() {
 
                                 db.query('SELECT * FROM department', function (err, results) {
 
-                                    db.query(`DELETE FROM role WHERE id = ? ${UpdateRole.name}`);
-                                    db.query(`DELETE FROM employee WHERE id = ? ${UpdateRole.title}`);
+                                    db.query(`DELETE FROM role WHERE id = ? '${UpdateRole.name}'`);
+                                    db.query(`DELETE FROM employee WHERE id = ? '${UpdateRole.title}'`);
 
                                     console.log(`Added ${UpdateRole.name} with ${UpdateRole.title} to database`);
                                     console.log(results);
@@ -114,25 +113,25 @@ function start() {
                         console.log(`Viewed departments in database`);
                         console.log(results);
             });
-        }
+                }
 
-            if (answers.likeToDo === 'view all roles') {
+                if (answers.likeToDo === 'view all roles') {
                 db.query('SELECT * FROM role', function (err, results) {
                     db.query(`JOIN role ON role.employee = role.id`);
 
                     console.log(`Viewed role in database`);
                     console.log(results);
         });
-    }
+                }
 
-    if (answers.likeToDo === 'view all employees') {
+                if (answers.likeToDo === 'view all employees') {
         db.query('SELECT * FROM employees', function (err, results) {
             db.query(`JOIN employee ON department.employee = department.id`);
 
             console.log(`Viewed employees in database`);
             console.log(results);
 });
-}
+                }
 
 
 
@@ -143,13 +142,10 @@ function start() {
 
 
 
-
-        }
 
         }
 
         })
-
 
         .catch((error) => {
             if (error) {
