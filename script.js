@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 
 const db = require("./db/connection.js");
+const { async } = require('rxjs');
 
 
 function start() {
@@ -19,7 +20,7 @@ function start() {
             console.log(`have selected ${answers.likeToDo}`);
             Firstprompt(answers);
 
-            function Firstprompt(answers) {
+           function Firstprompt(answers) {
 
                 if (answers.likeToDo === 'add an employee') {
                     inquirer
@@ -63,6 +64,7 @@ function start() {
                         })
                 }
 
+                async function addDepartment(answers){
                 if (answers.likeToDo === 'add a department') {
                 inquirer
                     .prompt([
@@ -72,19 +74,42 @@ function start() {
                         message: "what is the name of the new department?"
                     }])
                         .then((departmentAdd) => {
-
-                            db.query('SELECT * FROM department', function (err, results) {
-                                db.query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`),
-                                    console.log(`Added ${departmentAdd.name} to database`);
-
-                                    let newResults = new results;
-                                console.log(newresults);
-                                
-                            });
-                        });
+                            let newValue = function(departmentAdd){
+                                return new Promise(resolve, reject)=>{
+                                    db.query('SELECT * FROM department', function (err, results) {
+                                        db.query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`),
+                                            console.log(`Added ${departmentAdd.name} to database`);
+                                            console.log()
+                                        });
+                                        console.log(newValue);
+                                    }
+                                     }
+                                 });
+                                }
+                            }
+                           
                 }
 
                 // Missing add a role
+
+                if (answers.likeToDo === 'add a role'){
+                    inquirer
+                    .prompt([
+                        {
+                        type: "input",
+                        name: "name",
+                        message: "what is the new role you would like to add?"
+                    }])
+                        .then((roleAdd) => {
+
+                            db.query('SELECT * FROM role', function (err, results) {
+                                db.query(`INSERT INTO role(name) VALUES ('${roleAdd.name}')`),
+                                    console.log(`Added ${roleAdd.name} to database`); 
+
+                                });
+                            });
+                }
+            }
 
                 if (answers.likeToDo === 'update an employee role') {
                     inquirer //select an employee to update and their new role
@@ -113,7 +138,7 @@ function start() {
 
                 if (answers.likeToDo === 'view all departments') {
                     db.query('SELECT * FROM department', function (err, results) {
-                        db.query(`JOIN department ON role.department = deprtment.id`);
+                        db.query(`JOIN department ON role.department = department.id`);
 
                         console.log(`Viewed departments in database`);
                         console.log(results);
