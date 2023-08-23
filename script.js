@@ -50,10 +50,10 @@ function start() {
 
                         .then((employeeAdd) => {
 
-                            db.query('SELECT * FROM role, employee', function (err, results) {
-                                db.query(`INSERT INTO role(title, salary, department_id) VALUES ('${employeeAdd.title}', ${employeeAdd.salary}, 6)`)
+                            db.promise().query('SELECT * FROM role, employee', function (err, results) {
+                                db.promise().query(`INSERT INTO role(title, salary, department_id) VALUES ('${employeeAdd.title}', ${employeeAdd.salary}, 6)`)
 
-                                db.query(`INSERT INTO employee(first_name, last_name, role_id) VALUES ('${employeeAdd.firstname}', '${employeeAdd.lastname}', 6)`)
+                                db.promise().query(`INSERT INTO employee(first_name, last_name, role_id) VALUES ('${employeeAdd.firstname}', '${employeeAdd.lastname}', 6)`)
 
                                 console.log(`Added ${employeeAdd.firstname} to database`);
 
@@ -73,8 +73,8 @@ function start() {
                                 message: "what is the name of the new department?"
                             }])
                         .then((departmentAdd) => {
-                            db.query('SELECT * FROM department'), function (err, results) {
-                                db.query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`),
+                            db.promise().query('SELECT * FROM department'), function (err, results) {
+                                db.promise().query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`),
                                     console.log(`Added ${departmentAdd.name} to database`);
                                 console.log(results);
                             }
@@ -91,8 +91,8 @@ function start() {
                             }])
                         .then((roleAdd) => {
 
-                            db.query('SELECT * FROM role', function (err, results) {
-                                db.query(`INSERT INTO role(name) VALUES ('${roleAdd.name}')`),
+                            db.promise().query('SELECT * FROM role', function (err, results) {
+                                db.promise().query(`INSERT INTO role(name) VALUES ('${roleAdd.name}')`),
                                     console.log(`Added ${roleAdd.name} to database`);
                                 console.log(results);
 
@@ -114,10 +114,10 @@ function start() {
                         }])
                         .then((UpdateRole) => {
 
-                            db.query('SELECT * FROM department', function (err, results) {
+                            db.promise().query('SELECT * FROM department', function (err, results) {
 
-                                db.query(`DELETE FROM role WHERE id = ? '${UpdateRole.name}'`);
-                                db.query(`DELETE FROM employee WHERE id = ? '${UpdateRole.title}'`);
+                                db.promise().query(`DELETE FROM role WHERE id = ? '${UpdateRole.name}'`);
+                                db.promise().query(`DELETE FROM employee WHERE id = ? '${UpdateRole.title}'`);
 
                                 console.log(`Added ${UpdateRole.name} with ${UpdateRole.title} to database`);
                                 console.log(results);
@@ -126,8 +126,8 @@ function start() {
                 }
 
                 if (answers.likeToDo === 'view all departments') {
-                    db.query('SELECT * FROM department', function (err, results) {
-                        db.query(`JOIN department ON role.department = department.id`);
+                    db.promise().query('SELECT * FROM department', function (err, results) {
+                        db.promise().query(`JOIN department ON role.department = department.id`);
 
                         console.log(`Viewed departments in database`);
                         console.log(results);
@@ -135,8 +135,8 @@ function start() {
                 }
 
                 if (answers.likeToDo === 'view all roles') {
-                    db.query('SELECT * FROM role', function (err, results) {
-                        db.query(`JOIN role ON role.employee = role.id`);
+                    db.promise().query('SELECT * FROM role', function (err, results) {
+                        db.promise().query(`JOIN role ON role.employee = role.id`);
 
                         console.log(`Viewed role in database`);
                         console.log(results);
@@ -144,8 +144,8 @@ function start() {
                 }
 
                 if (answers.likeToDo === 'view all employees') {
-                    db.query('SELECT * FROM employees', function (err, results) {
-                        db.query(`JOIN employee ON department.employee = department.id`);
+                    db.promise().query('SELECT * FROM employees', function (err, results) {
+                        db.promise().query(`JOIN employee ON department.employee = department.id`);
 
                         console.log(`Viewed employees in database`);
                         console.log(results);
