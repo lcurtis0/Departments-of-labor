@@ -3,7 +3,6 @@ const inquirer = require('inquirer');
 const db = require("./db/connection.js");
 
 
-
 function start() {
 
     const ToDo = [
@@ -50,18 +49,14 @@ function start() {
 
                         .then((employeeAdd) => {
 
-                            db.promise().query('SELECT * FROM role, employee', function (err, results) {
-                                db.promise().query(`INSERT INTO role(title, salary, department_id) VALUES ('${employeeAdd.title}', ${employeeAdd.salary}, 6)`)
+                            console.log(`Added ${employeeAdd.name} to database`);
+                            db.promise().query('SELECT * FROM role, employee').then((newData) => console.log(newData));
+                            db.promise().query(`INSERT INTO role(title, salary, department_id) VALUES ('${employeeAdd.title}', ${employeeAdd.salary}, 6)`).then((newData) => console.log(newData));
 
-                                db.promise().query(`INSERT INTO employee(first_name, last_name, role_id) VALUES ('${employeeAdd.firstname}', '${employeeAdd.lastname}', 6)`)
-
-                                console.log(`Added ${employeeAdd.firstname} to database`);
-
-                                console.log(results);
+                            db.promise().query(`INSERT INTO employee(first_name, last_name, role_id) VALUES ('${employeeAdd.firstname}', '${employeeAdd.lastname}', 6)`).then((newData) => console.log(newData));
 
                             });
 
-                        })
                 }
 
                 if (answers.likeToDo === 'add a department') {
@@ -73,12 +68,10 @@ function start() {
                                 message: "what is the name of the new department?"
                             }])
                         .then((departmentAdd) => {
+                            console.log(`Added ${departmentAdd.name} to database`);
                             db.promise().query('SELECT name FROM department').then((newData) => console.log(newData));
                             db.promise().query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`).then((newData) => console.log(newData));
                         })
-
-
-
                 }
 
                 if (answers.likeToDo === 'add a role') {
@@ -114,42 +107,35 @@ function start() {
                         }])
                         .then((UpdateRole) => {
 
-                            db.promise().query('SELECT * FROM department', function (err, results) {
+                            db.promise().query('SELECT * FROM department, role, employee', function (err, results) {
 
                                 db.promise().query(`DELETE FROM role WHERE id = ? '${UpdateRole.name}'`);
                                 db.promise().query(`DELETE FROM employee WHERE id = ? '${UpdateRole.title}'`);
 
+                                db.promise().query(`INTO role(name) VALUES ('${UpdateRole.name}')`).then((newData) => console.log(newData));
+                                db.promise().query(`INTO employee(title) VALUES ('${UpdateRole.title}')`).then((newData) => console.log(newData));
+
                                 console.log(`Added ${UpdateRole.name} with ${UpdateRole.title} to database`);
-                                console.log(results);
                             });
                         });
                 }
 
                 if (answers.likeToDo === 'view all departments') {
-                    db.promise().query('SELECT * FROM department', function (err, results) {
-                        db.promise().query(`JOIN department ON role.department = department.id`);
+                        db.promise().query('SELECT * FROM department').then((newData) => console.log(newData));
 
                         console.log(`Viewed departments in database`);
-                        console.log(results);
-                    });
                 }
 
                 if (answers.likeToDo === 'view all roles') {
-                    db.promise().query('SELECT * FROM role', function (err, results) {
-                        db.promise().query(`JOIN role ON role.employee = role.id`);
+                    db.promise().query('SELECT * FROM role').then((newData) => console.log(newData));
 
                         console.log(`Viewed role in database`);
-                        console.log(results);
-                    });
                 }
 
                 if (answers.likeToDo === 'view all employees') {
-                    db.promise().query('SELECT * FROM employees', function (err, results) {
-                        db.promise().query(`JOIN employee ON department.employee = department.id`);
+                    db.promise().query('SELECT * FROM employee').then((newData) => console.log(newData));
 
                         console.log(`Viewed employees in database`);
-                        console.log(results);
-                    });
                 }
 
             }
