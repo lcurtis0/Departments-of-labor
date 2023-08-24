@@ -73,12 +73,12 @@ function start() {
                                 message: "what is the name of the new department?"
                             }])
                         .then((departmentAdd) => {
-                            db.promise().query('SELECT * FROM department'), function (err, results) {
-                                db.promise().query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`),
-                                    console.log(`Added ${departmentAdd.name} to database`);
-                                console.log(results);
-                            }
-                        });
+                            db.promise().query('SELECT name FROM department').then((newData) => console.log(newData));
+                            db.promise().query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`).then((newData) => console.log(newData));
+                        })
+
+
+
                 }
 
                 if (answers.likeToDo === 'add a role') {
