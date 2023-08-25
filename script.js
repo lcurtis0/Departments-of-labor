@@ -1,7 +1,6 @@
 const inquirer = require('inquirer');
 
 const db = require("./db/connection.js");
-const { async } = require('rxjs');
 
 
 function start() {
@@ -20,7 +19,7 @@ function start() {
             console.log(`have selected ${answers.likeToDo}`);
             Firstprompt(answers);
 
-           function Firstprompt(answers) {
+            function Firstprompt(answers) {
 
                 if (answers.likeToDo === 'add an employee') {
                     inquirer
@@ -50,70 +49,53 @@ function start() {
 
                         .then((employeeAdd) => {
 
-                            db.query('SELECT * FROM role, employee', function (err, results) {
-                                db.query(`INSERT INTO role(title, salary, department_id) VALUES ('${employeeAdd.title}', ${employeeAdd.salary}, 6)`)
+                            console.log(`Added ${employeeAdd.name} to database`);
+                            db.promise().query('SELECT * FROM role, employee').then((newData) => console.log(newData));
+                            db.promise().query(`INSERT INTO role(title, salary, department_id) VALUES ('${employeeAdd.title}', ${employeeAdd.salary}, 6)`).then((newData) => console.log(newData));
 
-                                db.query(`INSERT INTO employee(first_name, last_name, role_id) VALUES ('${employeeAdd.firstname}', '${employeeAdd.lastname}', 6)`)
-
-                                console.log(`Added ${employeeAdd.firstname} to database`);
-
-                                console.log(results);
+                            db.promise().query(`INSERT INTO employee(first_name, last_name, role_id) VALUES ('${employeeAdd.firstname}', '${employeeAdd.lastname}', 6)`).then((newData) => console.log(newData));
 
                             });
 
+                }
+
+                if (answers.likeToDo === 'add a department') {
+                    inquirer
+                        .prompt([
+                            {
+                                type: "input",
+                                name: "name",
+                                message: "what is the name of the new department?"
+                            }])
+                        .then((departmentAdd) => {
+                            console.log(`Added ${departmentAdd.name} to database`);
+                            db.promise().query('SELECT name FROM department').then((newData) => console.log(newData));
+                            db.promise().query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`).then((newData) => console.log(newData));
                         })
                 }
 
-                async function addDepartment(answers){
-                if (answers.likeToDo === 'add a department') {
-                inquirer
-                    .prompt([
-                        {
-                        type: "input",
-                        name: "name",
-                        message: "what is the name of the new department?"
-                    }])
-                        .then((departmentAdd) => {
-                            let newValue = function(departmentAdd){
-                                return new Promise(resolve, reject)=>{
-                                    db.query('SELECT * FROM department', function (err, results) {
-                                        db.query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`),
-                                            console.log(`Added ${departmentAdd.name} to database`);
-                                            console.log()
-                                        });
-                                        console.log(newValue);
-                                    }
-                                     }
-                                 });
-                                }
-                            }
-                           
-                }
-
-                // Missing add a role
-
-                if (answers.likeToDo === 'add a role'){
+                if (answers.likeToDo === 'add a role') {
                     inquirer
-                    .prompt([
-                        {
-                        type: "input",
-                        name: "name",
-                        message: "what is the new role you would like to add?"
-                    }])
+                        .prompt([
+                            {
+                                type: "input",
+                                name: "name",
+                                message: "what is the new role you would like to add?"
+                            }])
                         .then((roleAdd) => {
 
-                            db.query('SELECT * FROM role', function (err, results) {
-                                db.query(`INSERT INTO role(name) VALUES ('${roleAdd.name}')`),
-                                    console.log(`Added ${roleAdd.name} to database`); 
+                            db.promise().query('SELECT * FROM role', function (err, results) {
+                                db.promise().query(`INSERT INTO role(name) VALUES ('${roleAdd.name}')`),
+                                    console.log(`Added ${roleAdd.name} to database`);
+                                console.log(results);
 
-                                });
                             });
+                        });
                 }
-            }
 
                 if (answers.likeToDo === 'update an employee role') {
                     inquirer //select an employee to update and their new role
-                        .prompt ([{
+                        .prompt([{
                             type: "input",
                             name: "name",
                             message: "Input a new employee name?"
@@ -123,68 +105,53 @@ function start() {
                             name: "title",
                             message: "Input a role to new employee?"
                         }])
-                            .then((UpdateRole) => {
+                        .then((UpdateRole) => {
 
-                                db.query('SELECT * FROM department', function (err, results) {
+                            db.promise().query('SELECT * FROM department, role, employee', function (err, results) {
 
-                                    db.query(`DELETE FROM role WHERE id = ? '${UpdateRole.name}'`);
-                                    db.query(`DELETE FROM employee WHERE id = ? '${UpdateRole.title}'`);
+                                db.promise().query(`DELETE FROM role WHERE id = ? '${UpdateRole.name}'`);
+                                db.promise().query(`DELETE FROM employee WHERE id = ? '${UpdateRole.title}'`);
 
-                                    console.log(`Added ${UpdateRole.name} with ${UpdateRole.title} to database`);
-                                    console.log(results);
-                                });
+                                db.promise().query(`INTO role(name) VALUES ('${UpdateRole.name}')`).then((newData) => console.log(newData));
+                                db.promise().query(`INTO employee(title) VALUES ('${UpdateRole.title}')`).then((newData) => console.log(newData));
+
+                                console.log(`Added ${UpdateRole.name} with ${UpdateRole.title} to database`);
                             });
+                        });
                 }
 
                 if (answers.likeToDo === 'view all departments') {
-                    db.query('SELECT * FROM department', function (err, results) {
-                        db.query(`JOIN department ON role.department = department.id`);
+                        db.promise().query('SELECT * FROM department').then((newData) => console.log(newData));
 
                         console.log(`Viewed departments in database`);
-                        console.log(results);
-            });
                 }
 
                 if (answers.likeToDo === 'view all roles') {
-                db.query('SELECT * FROM role', function (err, results) {
-                    db.query(`JOIN role ON role.employee = role.id`);
+                    db.promise().query('SELECT * FROM role').then((newData) => console.log(newData));
 
-                    console.log(`Viewed role in database`);
-                    console.log(results);
-        });
+                        console.log(`Viewed role in database`);
                 }
 
                 if (answers.likeToDo === 'view all employees') {
-        db.query('SELECT * FROM employees', function (err, results) {
-            db.query(`JOIN employee ON department.employee = department.id`);
+                    db.promise().query('SELECT * FROM employee').then((newData) => console.log(newData));
 
-            console.log(`Viewed employees in database`);
-            console.log(results);
-});
+                        console.log(`Viewed employees in database`);
                 }
 
-
-
-
-
-
-
-
-
-
-
-        }
+            }
 
         })
 
         .catch((error) => {
             if (error) {
-                console.log("Error caught: " + error);
+                console.log("Error caught" + error);
             } else {
                 console.log("Another type of error: perhaps did not answer questions correctly");
             }
+
         });
 
-};
+}
 
 start();
+
