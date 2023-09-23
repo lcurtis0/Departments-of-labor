@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const { table } = require('table')
+const cTable = require('console.table');
 
 const db = require("./db/connection.js");
 
@@ -23,20 +23,21 @@ function start() {
 
             function Firstprompt(answers) {
 
+                // To add an employee to table
                 if (answers.likeToDo === 'add an employee') {
                     inquirer
                         .prompt([
-                            {
+                            { // Must input name 
                                 type: "input",
                                 name: "firstname",
                                 message: "What is the first name of the new employee?"
                             },
-                            {
+                            { // Must input lastname 
                                 type: "input",
                                 name: "lastname",
                                 message: "What is the last name of the new employee?"
                             },
-                            {
+                            { // Enters other info for row 
                                 type: "input",
                                 name: "salary",
                                 message: "What is the salary of the new employee?"
@@ -133,8 +134,18 @@ function start() {
                 if (answers.likeToDo === 'view all departments') {
                     db.promise().query('SELECT * FROM department').then((newData) => {
 
-                        console.log(table(newData));
+                        const table = cTable.getTable(['departments']);
+
+                        console.log(table);
+                        console.table(newData[0][0]);
+                        console.table(newData[0][1]);
+                        console.table(newData[0][2]);
+
+                        console.table(table, newData);
+
+                        console.table(['id', 'name'], table);
                         console.log(`Viewed departments in database`);
+                        console.log('------------------------------------------------');
                         return start();
                     })
 
