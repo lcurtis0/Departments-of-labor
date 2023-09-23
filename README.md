@@ -26,7 +26,7 @@ Users must first source schema, seeds, and query sql files and fill out a series
 
 Here is the video
 
-https://screenpal.com/content/video/c0jTnjVpafH
+
 
 # Credits
 

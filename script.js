@@ -55,7 +55,9 @@ function start() {
 
                             db.promise().query(`INSERT INTO employee(first_name, last_name, role_id) VALUES ('${employeeAdd.firstname}', '${employeeAdd.lastname}', 6)`).then((newData) => console.log(newData));
 
-                            });
+                            return start();
+
+                        });
 
                 }
 
@@ -72,6 +74,8 @@ function start() {
                             db.promise().query('SELECT name FROM department').then((newData) => console.log(newData));
                             db.promise().query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`).then((newData) => console.log(newData));
                         })
+
+                        return start();
                 }
 
                 if (answers.likeToDo === 'add a role') {
@@ -91,6 +95,8 @@ function start() {
 
                             });
                         });
+
+                        return start();
                 }
 
                 if (answers.likeToDo === 'update an employee role') {
@@ -118,24 +124,33 @@ function start() {
                                 console.log(`Added ${UpdateRole.name} with ${UpdateRole.title} to database`);
                             });
                         });
+
+                        return start();
                 }
 
                 if (answers.likeToDo === 'view all departments') {
-                        db.promise().query('SELECT * FROM department').then((newData) => console.log(newData));
+                    db.promise().query('SELECT * FROM department').then((newData) => console.log(newData));
 
-                        console.log(`Viewed departments in database`);
+                    console.log(`Viewed departments in database`);
+
+                    return start();
+
                 }
 
                 if (answers.likeToDo === 'view all roles') {
                     db.promise().query('SELECT * FROM role').then((newData) => console.log(newData));
 
-                        console.log(`Viewed role in database`);
+                    console.log(`Viewed role in database`);
+
+                    return start();
                 }
 
                 if (answers.likeToDo === 'view all employees') {
                     db.promise().query('SELECT * FROM employee').then((newData) => console.log(newData));
 
-                        console.log(`Viewed employees in database`);
+                    console.log(`Viewed employees in database`);
+
+                    return start();
                 }
 
             }
