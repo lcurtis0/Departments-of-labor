@@ -1,6 +1,8 @@
 const inquirer = require('inquirer');
+const { table } = require('table')
 
 const db = require("./db/connection.js");
+
 
 
 function start() {
@@ -75,7 +77,7 @@ function start() {
                             db.promise().query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`).then((newData) => console.log(newData));
                         })
 
-                        return start();
+                    return start();
                 }
 
                 if (answers.likeToDo === 'add a role') {
@@ -96,7 +98,7 @@ function start() {
                             });
                         });
 
-                        return start();
+                    return start();
                 }
 
                 if (answers.likeToDo === 'update an employee role') {
@@ -125,15 +127,18 @@ function start() {
                             });
                         });
 
-                        return start();
+                    return start();
                 }
 
                 if (answers.likeToDo === 'view all departments') {
-                    db.promise().query('SELECT * FROM department').then((newData) => console.log(newData));
+                    db.promise().query('SELECT * FROM department').then((newData) => {
 
-                    console.log(`Viewed departments in database`);
+                        console.log(table(newData));
+                        console.log(`Viewed departments in database`);
+                        return start();
+                    })
 
-                    return start();
+                    //console.log(newData));
 
                 }
 
