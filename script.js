@@ -1,9 +1,8 @@
 const inquirer = require('inquirer');
-const table = require('table');
+const { table } = require('table')
 
 const db = require("./db/connection.js");
 
-import { table } from 'table';
 
 
 function start() {
