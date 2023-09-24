@@ -137,13 +137,9 @@ function start() {
                         const table = cTable.getTable(['departments']);
 
                         console.log(table);
-                        console.table(newData[0][0]);
-                        console.table(newData[0][1]);
-                        console.table(newData[0][2]);
 
-                        console.table(table, newData);
+                        console.table(newData[0]);
 
-                        console.table(['id', 'name'], table);
                         console.log(`Viewed departments in database`);
                         console.log('------------------------------------------------');
                         return start();
