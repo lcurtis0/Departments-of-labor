@@ -53,12 +53,23 @@ function start() {
                         .then((employeeAdd) => {
 
                             console.log(`Added ${employeeAdd.name} to database`);
-                            db.promise().query('SELECT * FROM role, employee').then((newData) => console.log(newData));
+                            db.promise().query('SELECT * FROM role, employee').then(() => console.log("Added an employee"));
                             db.promise().query(`INSERT INTO role(title, salary, department_id) VALUES ('${employeeAdd.title}', ${employeeAdd.salary}, 6)`).then((newData) => console.log(newData));
 
-                            db.promise().query(`INSERT INTO employee(first_name, last_name, role_id) VALUES ('${employeeAdd.firstname}', '${employeeAdd.lastname}', 6)`).then((newData) => console.log(newData));
+                            db.promise().query(`INSERT INTO employee(first_name, last_name, role_id) VALUES ('${employeeAdd.firstname}', '${employeeAdd.lastname}', 6)`).then((newData) => {
 
-                            return start();
+
+                                const table = cTable.getTable(['employee']);
+
+                                console.log(table);
+
+                                console.table(newData[0]);
+
+                                console.log(`Added an employee in database`);
+                                console.log('------------------------------------------------');
+                                return start();
+
+                            })
 
                         });
 
@@ -74,11 +85,23 @@ function start() {
                             }])
                         .then((departmentAdd) => {
                             console.log(`Added ${departmentAdd.name} to database`);
-                            db.promise().query('SELECT name FROM department').then((newData) => console.log(newData));
-                            db.promise().query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`).then((newData) => console.log(newData));
-                        })
+                            db.promise().query('SELECT name FROM department').then(() => console.log("added department"));
+                            db.promise().query(`INSERT INTO department(name) VALUES ('${departmentAdd.name}')`).then((newData) => {
 
-                    return start();
+
+
+                                const table = cTable.getTable(['department']);
+
+                                console.log(table);
+
+                                console.table(newData[0]);
+
+                                console.log(`Viewed departments in database`);
+                                console.log('------------------------------------------------');
+                                return start();
+                            });
+                        });
+
                 }
 
                 if (answers.likeToDo === 'add a role') {
@@ -92,14 +115,24 @@ function start() {
                         .then((roleAdd) => {
 
                             db.promise().query('SELECT * FROM role', function (err, results) {
-                                db.promise().query(`INSERT INTO role(name) VALUES ('${roleAdd.name}')`),
-                                    console.log(`Added ${roleAdd.name} to database`);
-                                console.log(results);
+                                db.promise().query(`INSERT INTO role(name) VALUES ('${roleAdd.name}')`).then((newData) => {
+
+
+                                    const table = cTable.getTable(['role']);
+
+                                    console.log(table);
+
+                                    console.table(newData[0]);
+
+                                    console.log(`Added a role in database`);
+                                    console.log('------------------------------------------------');
+                                    return start();
+
+                                })
 
                             });
                         });
 
-                    return start();
                 }
 
                 if (answers.likeToDo === 'update an employee role') {
@@ -121,10 +154,21 @@ function start() {
                                 db.promise().query(`DELETE FROM role WHERE id = ? '${UpdateRole.name}'`);
                                 db.promise().query(`DELETE FROM employee WHERE id = ? '${UpdateRole.title}'`);
 
-                                db.promise().query(`INTO role(name) VALUES ('${UpdateRole.name}')`).then((newData) => console.log(newData));
-                                db.promise().query(`INTO employee(title) VALUES ('${UpdateRole.title}')`).then((newData) => console.log(newData));
+                                db.promise().query(`INTO role(name) VALUES ('${UpdateRole.name}')`).then((newData) => console.log("updated name"));
+                                db.promise().query(`INTO employee(title) VALUES ('${UpdateRole.title}')`).then((newData) => {
 
-                                console.log(`Added ${UpdateRole.name} with ${UpdateRole.title} to database`);
+                                    console.log(`Added ${UpdateRole.name} with ${UpdateRole.title} to database`);
+
+                                    const table = cTable.getTable(['department']);
+
+                                    console.log(table);
+
+                                    console.table(newData[0]);
+
+                                    console.log(`Updated an employee role in database`);
+                                    console.log('------------------------------------------------');
+                                    return start();
+                                })
                             });
                         });
 
@@ -134,40 +178,55 @@ function start() {
                 if (answers.likeToDo === 'view all departments') {
                     db.promise().query('SELECT * FROM department').then((newData) => {
 
-                        const table = cTable.getTable(['departments']);
+                        const table = cTable.getTable(['department']);
 
                         console.log(table);
 
                         console.table(newData[0]);
 
-                        console.log(`Viewed departments in database`);
+                        console.log(`Veiwed all departments in database`);
+                        console.log('------------------------------------------------');
+                        return start();
+                    })
+                }
+
+                if (answers.likeToDo === 'view all roles') {
+                    db.promise().query('SELECT * FROM role').then((newData) => {
+
+
+                        const table = cTable.getTable(['role']);
+
+                        console.log(table);
+
+                        console.table(newData[0]);
+
+                        console.log(`Viewed roles in database`);
                         console.log('------------------------------------------------');
                         return start();
                     })
 
-                    //console.log(newData));
-
-                }
-
-                if (answers.likeToDo === 'view all roles') {
-                    db.promise().query('SELECT * FROM role').then((newData) => console.log(newData));
-
-                    console.log(`Viewed role in database`);
-
-                    return start();
                 }
 
                 if (answers.likeToDo === 'view all employees') {
-                    db.promise().query('SELECT * FROM employee').then((newData) => console.log(newData));
+                    db.promise().query('SELECT * FROM employee').then((newData) => {
 
-                    console.log(`Viewed employees in database`);
+                        const table = cTable.getTable(['employee']);
 
-                    return start();
+                        console.log(table);
+
+                        console.table(newData[0]);
+
+                        console.log(`Viewed employees in database`);
+                        console.log('------------------------------------------------');
+                        return start();
+
+                    })
+
                 }
 
             }
-
         })
+
 
         .catch((error) => {
             if (error) {
